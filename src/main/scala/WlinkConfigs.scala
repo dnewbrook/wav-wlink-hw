@@ -68,9 +68,9 @@ fragment that gives some configurability.
 class WithWlinkGPIOAXIConfig(
   numTxLanes  : Int = 1,
   numRxLanes  : Int = 1,
-  size        : BigInt = 0x100000,
+  size        : BigInt = x"10_0000_0000",
   beatBytes   : Int = 4,
-  idBits      : Int = 4,
+  idBits      : Int = 12,
 ) extends Config((site, here, up) => {
 
   case WlinkParamsKey => WlinkParams(
@@ -82,7 +82,10 @@ class WithWlinkGPIOAXIConfig(
       base = 0x0,
       size = size,
       beatBytes = beatBytes,
-      idBits = idBits)))
+      idBits = idBits))),
+    gbParams = Some(Seq(WlinkGeneralBusParams(
+      width = 32
+    )))
   )
 })
 //.code_block_end
@@ -121,6 +124,15 @@ class Wlink8LaneAXI256bitConfig extends Config(
     beatBytes  = 32) ++
   new BaseWlinkConfig
 )
+
+class Wlink8LaneAXI32bitConfig extends Config(
+  new WithWlinkGPIOAXIConfig(
+    numTxLanes = 8,
+    numRxLanes = 8,
+    beatBytes  = 4) ++
+  new BaseWlinkConfig
+)
+
 
 //.code_block_end
 

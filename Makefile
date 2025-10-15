@@ -1,7 +1,7 @@
 #Minimal makefile for Wlink
 SHELL=/bin/bash
 
-CONFIG		?= wav.wlink.Wlink1LaneAXI32bitConfig
+CONFIG		?= wav.wlink.Wlink8LaneAXI32bitConfig
 OUTPUTDIR	?= $(CONFIG)
 TEST_CONFIG	?= wav.wlink.AXI32bit1LaneWlinkTestConfig
 TEST_OUTPUTDIR	?= $(TEST_CONFIG)
@@ -28,7 +28,7 @@ help:
 
 wlink: 	
 	@echo "Making Wlink with CONFIG: $(CONFIG) and saving to $(OUTPUTDIR)"
-	sbt 'runMain wav.wlink.WlinkGen -o $(OUTPUTDIR) -c $(CONFIG)'
+	sbt 'runMain wav.wlink.WlinkGen -o $(OUTPUTDIR) -c $(CONFIG)' 
 
 # Ensure that the testharness config is one that is supported for the testharness!!!
 testharness: 	

@@ -33,14 +33,14 @@ class WithWlinkOnlyGen extends Config ((site, here, up) => {
 
 case class WlinkParams(
   phyParams         : WlinkPHYBaseParams,
-  axiFCOffset       : BigInt = 0x200000,                          //Starting Offset from wlink base addr of all AXI conversion nodes
+  axiFCOffset       : BigInt = 0x1000,                          //Starting Offset from wlink base addr of all AXI conversion nodes
   axiParams         : Option[Seq[WlinkAxiParams]] = None,
   apbTgtParams      : Option[Seq[WlinkApbTgtParams]] = None,
-  apbTgtFCOffset    : BigInt = 0x210000,                          //Starting Offset from wlink base addr of all APBTgt nodes
+  apbTgtFCOffset    : BigInt = 0x3000,                          //Starting Offset from wlink base addr of all APBTgt nodes
   apbIniParams      : Option[Seq[WlinkApbIniParams]] = None,
-  apbIniFCOffset    : BigInt = 0x218000,                          //Starting Offset from wlink base addr of all APBIni nodes
+  apbIniFCOffset    : BigInt = 0x4000,                          //Starting Offset from wlink base addr of all APBIni nodes
   gbParams          : Option[Seq[WlinkGeneralBusParams]] = None,
-  gbFCOffset        : BigInt = 0x220000,                          //Starting Base address of all GeneralBus nodes
+  gbFCOffset        : BigInt = 0x1600,                          //Starting Base address of all GeneralBus nodes
   noRegTest         : Boolean= false
 )
 
@@ -70,7 +70,7 @@ class WlinkBase()(implicit p: Parameters) extends LazyModule with WlinkApplicati
   
   val device = new SimpleDevice("wavwlink", Seq("wavious,wlink"))
   val node = WavAPBRegisterNode(
-    address = AddressSet.misaligned(wlinkBaseAddr+0x30000, 0x100),      ///FIX THIS 
+    address = AddressSet.misaligned(wlinkBaseAddr+0x200, 0x100),      ///FIX THIS 
     device  = device,
     beatBytes = 4,
     noRegTest = params.noRegTest)
@@ -353,7 +353,7 @@ object WlinkGen extends App {
         LazyModule(new Wlink()(p)).module,
 
         //args
-        Array("--target-dir", config.outputDir)
+        Array("--target-dir", config.outputDir, "-e", "verilog")
       )
     }
     case _ => {

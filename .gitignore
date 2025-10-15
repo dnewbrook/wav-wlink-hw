@@ -13,3 +13,5 @@ target/
 test_run_dir/
 
 output/
+
+*:Zone.Identifier
