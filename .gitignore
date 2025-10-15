@@ -15,3 +15,5 @@ test_run_dir/
 output/
 
 *:Zone.Identifier
+
+wav.wlink*
